@@ -1,0 +1,21 @@
+{
+    "files.associations": {
+        "stm8s.h": "c",
+        "stm8s_conf.h": "c",
+        "stm8s_gpio.h": "c",
+        "stdlib.h": "c",
+        "stm8s_clk.h": "c",
+        "stm8s_exti.h": "c",
+        "stm8s_itc.h": "c",
+        "stm8s_spi.h": "c",
+        "stm8s_uart1.h": "c",
+        "stm8s_eval_spi_sd.h": "c",
+        "stdarg.h": "c",
+        "log.h": "c",
+        "stdio.h": "c",
+        "cmath": "c",
+        "compare": "c",
+        "stm8s_tim4.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}
