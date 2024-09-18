@@ -1,4 +1,9 @@
 #include "log.h"
+#include <stdarg.h>
+#include "stdio.h"
+#include "string.h"
+#include "stm8s.h"
+#include "time.h"
 
 #define TxLen 100
 
@@ -11,8 +16,6 @@ static volatile uint16_t RxCounter1 = 0;
 static volatile bool RxFull = FALSE;
 static volatile bool TxActive = FALSE;
 
-extern void delay(int ms);
-extern uint32_t millis();
 
 void log(const char* pStr, ...){
     va_list ap;
