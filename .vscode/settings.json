@@ -17,7 +17,8 @@
         "compare": "c",
         "stm8s_tim4.h": "c",
         "time.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "string.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -21,7 +21,6 @@ uint8_t EEPROM_ReadByte(uint16_t Address){
 }
 
 
-
 main(){
     GPIO_DeInit(GPIOB);
     GPIO_Init(GPIOB, GPIO_PIN_5, GPIO_MODE_OUT_PP_LOW_SLOW);
@@ -30,18 +29,21 @@ main(){
     UART_Config(115200);
     enableInterrupts();
 
-    uint8_t start_counter = EEPROM_ReadByte(0);
-    EEPROM_WriteByte(0, start_counter+1);
+    uint32_t start_counter = EEPROM_ReadByte(0);
+    EEPROM_WriteByte(0, (uint8_t)start_counter+1);
     log("--START nr.%u, compiled at %s\n\r", start_counter, __TIME__);
     
     uint32_t t = millis();
-    
+    uint32_t timer1, timer2;
     while (1)
     {
         if(millis()>=(t+1000)){
-            log("hejo\n\r");
-            GPIO_WriteReverse(GPIOB, GPIO_PIN_5);
             t = millis();
+            timer1 = millis();
+            log("hejo\n\r");
+            timer2 = millis();
+            log("Timing: %u\n\r", timer2-timer1);
+            GPIO_WriteReverse(GPIOB, GPIO_PIN_5);
         }
 
     }
