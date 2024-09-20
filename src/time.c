@@ -2,6 +2,7 @@
 #include "stm8s.h"
 
 static volatile uint32_t millis_counter = 0; 
+static uint32_t stopwatchTime[4];
 
 void delay(uint16_t ms) {
     uint32_t t = millis();
@@ -59,4 +60,18 @@ uint32_t millis(void){
     millis_value = millis_counter;
     enableInterrupts();
     return millis_value;
+}
+
+void stopwatch_start(uint8_t channel){
+    if(channel < 4){
+        stopwatchTime[channel] = millis();
+    }
+}
+
+uint32_t stopwatch_stop(uint8_t channel){
+    if(channel < 4){
+        return millis() - stopwatchTime[channel];
+    }else{
+        return 0;
+    }
 }
