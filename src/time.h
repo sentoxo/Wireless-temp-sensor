@@ -26,3 +26,6 @@ void stopwatch_start(uint8_t channel);
 
 // Return stopwatch time in miliiseconds, take 0-3 channel
 uint32_t stopwatch_stop(uint8_t channel);
+
+// Cingure watchdog
+void IWDG_Config();

@@ -75,3 +75,12 @@ uint32_t stopwatch_stop(uint8_t channel){
         return 0;
     }
 }
+
+void IWDG_Config(){
+    IWDG_Enable();
+    IWDG_WriteAccessCmd(IWDG_WriteAccess_Enable);
+    IWDG_SetPrescaler(IWDG_Prescaler_256);
+    IWDG_WriteAccessCmd(IWDG_WriteAccess_Enable);
+    IWDG_SetReload(255);
+    IWDG_ReloadCounter();
+}

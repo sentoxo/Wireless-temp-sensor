@@ -123,8 +123,9 @@ void log(const char* pStr, ...){
     #endif
     
     va_end(ap);
-    if(counter >= TxLen){
-        strcpy((char*)(TxBuffer1+14), bo);
+    if(counter >= TxLen-2){
+        TxBuffer1[TxLen-2] = '\n';
+        TxBuffer1[TxLen-1] = '\r';
     }
 
     UART1_ITConfig(UART1_IT_TXE, ENABLE); //Enable sending message by interupts

@@ -27,22 +27,23 @@ main(){
     CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);
     TIM4_Config();
     UART_Config(115200);
+    IWDG_Config();
     enableInterrupts();
-
+    
     uint32_t start_counter = EEPROM_ReadByte(0);
     EEPROM_WriteByte(0, (uint8_t)start_counter+1);
     log("--START nr.%u, compiled at %s\n\r", start_counter, __TIME__);
     
     uint32_t t = millis();
-    uint32_t timer1, timer2;
+
     while (1)
     {
+        IWDG_ReloadCounter();
         if(millis()>=(t+1000)){
             t = millis();
-            timer1 = millis();
-            log("hejo\n\r");
-            timer2 = millis();
-            log("Timing: %u\n\r", timer2-timer1);
+            stopwatch_start(0);
+            log("01234567890123456789012345678901234567890123456789\n\r");
+            log("Timing: %u\n\r", stopwatch_stop(0));
             GPIO_WriteReverse(GPIOB, GPIO_PIN_5);
         }
 
