@@ -29,10 +29,14 @@ main(){
     UART_Config(115200);
     IWDG_Config();
     enableInterrupts();
-    
+
     uint32_t start_counter = EEPROM_ReadByte(0);
     EEPROM_WriteByte(0, (uint8_t)start_counter+1);
     log("--START nr.%u, compiled at %s\n\r", start_counter, __TIME__);
+    if(RST_GetFlagStatus(RST_FLAG_IWDGF) == SET){
+        RST_ClearFlag(RST_FLAG_IWDGF);
+        log("Start after watchdog reset\n\r");
+    }
     
     uint32_t t = millis();
 
