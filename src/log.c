@@ -6,7 +6,7 @@
 #include "time.h"
 
 #define TxLen 100
-//#define useSprintf
+#define useSprintf
 
 static uint8_t TxBuffer1[TxLen];
 static uint8_t bufove = 0;

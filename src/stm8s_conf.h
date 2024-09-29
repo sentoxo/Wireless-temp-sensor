@@ -43,7 +43,7 @@
     defined (STM8AF62Ax)
 // #include "stm8s_adc2.h"
 #endif /* (STM8S208) || (STM8S207) || (STM8AF62Ax) || (STM8AF52Ax) */
-//#include "stm8s_awu.h"
+#include "stm8s_awu.h"
 //#include "stm8s_beep.h"
 #if defined (STM8S208) || defined (STM8AF52Ax)
 // #include "stm8s_can.h"
