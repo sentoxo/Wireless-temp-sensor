@@ -1,6 +1,13 @@
 #pragma once
 #include "stdint.h"
 
+typedef enum {
+    CPU16Mhz,
+    CPU8Mhz,
+    CPU4Mhz,
+    CPU2Mhz
+}   cpu_clock;
+
 // Wait for x miliiseconds, function use timer4
 void delay(uint16_t ms);
 
@@ -13,7 +20,7 @@ void delay_micro_no_tim(uint32_t micros);
 void delay_micro(uint8_t micros);
 
 // Initialize timer4 for millis.
-void TIM4_Config(void);
+void TIM4_Config(cpu_clock);
 
 // Return time from power on in milliseconds. Up to 50days.
 uint32_t millis(void);
