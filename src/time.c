@@ -1,58 +1,54 @@
 #include "time.h"
 #include "stm8s.h"
 
-static volatile uint32_t millis_counter = 0; 
+static volatile uint32_t millis_counter = 0;
 static uint32_t stopwatchTime[4];
 
-void delay(uint16_t ms) {
+void
+delay(uint16_t ms) {
     uint32_t t = millis();
-    while(millis()<(t+ms)){}
+    while (millis() < (t + ms)) {}
 }
 
-void delay_micro_no_tim(uint32_t micros){
+void
+delay_micro_no_tim(uint32_t micros) {
     //Longer below 100mikro and faster above it. Only for 16Mhz
-    micros = micros>>1; // faster -> micros=/2
-    for (uint32_t i = 0; i <= micros; i++){
-        __asm__ ("nop");
-        __asm__ ("nop");
-        __asm__ ("nop");
-        __asm__ ("nop");
-        __asm__ ("nop");
-        __asm__ ("nop");
-        __asm__ ("nop");
-        __asm__ ("nop");
-        __asm__ ("nop");
+    micros = micros >> 1; // faster -> micros=/2
+    for (uint32_t i = 0; i <= micros; i++) {
+        __asm__("nop");
+        __asm__("nop");
+        __asm__("nop");
+        __asm__("nop");
+        __asm__("nop");
+        __asm__("nop");
+        __asm__("nop");
+        __asm__("nop");
+        __asm__("nop");
     }
 }
 
-void delay_micro(uint8_t micros){
+void
+delay_micro(uint8_t micros) {
     uint8_t start = (uint8_t)(TIM4->CNTR);
     for (;;) {
-        uint8_t now = (uint8_t)(TIM4->CNTR);      
-        uint8_t elapsed = now - start;  
-        if (elapsed >= micros)                    
+        uint8_t now = (uint8_t)(TIM4->CNTR);
+        uint8_t elapsed = now - start;
+        if (elapsed >= micros) {
             return;
+        }
     }
 }
 
-void TIM4_Config(cpu_clock clock){
+void
+TIM4_Config(cpu_clock clock) {
     // Enable TIM4 clock
     CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER4, ENABLE);
-    switch (clock){
-    case CPU16Mhz:
-        TIM4_TimeBaseInit(TIM4_PRESCALER_64, 249);
-        break;
-    case CPU8Mhz:
-        TIM4_TimeBaseInit(TIM4_PRESCALER_32, 249);
-        break;
-    case CPU4Mhz:
-        TIM4_TimeBaseInit(TIM4_PRESCALER_16, 249);
-        break;
-    case CPU2Mhz:
-        TIM4_TimeBaseInit(TIM4_PRESCALER_8, 249);
-        break;
-    default:
-        TIM4_TimeBaseInit(TIM4_PRESCALER_64, 249);
+    switch (clock) {
+        case CPU16Mhz: TIM4_TimeBaseInit(TIM4_PRESCALER_64, 249); break;
+        case CPU8Mhz: TIM4_TimeBaseInit(TIM4_PRESCALER_32, 249); break;
+        case CPU4Mhz: TIM4_TimeBaseInit(TIM4_PRESCALER_16, 249); break;
+        case CPU2Mhz: TIM4_TimeBaseInit(TIM4_PRESCALER_8, 249); break;
+        default: TIM4_TimeBaseInit(TIM4_PRESCALER_64, 249);
     }
     TIM4_ClearFlag(TIM4_FLAG_UPDATE);
     // Enable TIM4 update interrupt
@@ -61,14 +57,16 @@ void TIM4_Config(cpu_clock clock){
     TIM4_Cmd(ENABLE);
 }
 
-void TIM4_UPD_OVF_IRQHandler() __interrupt(23){
+void
+TIM4_UPD_OVF_IRQHandler() __interrupt(23) {
     // Increment the milliseconds counter
     millis_counter++;
     // Clear TIM4 update interrupt flag
     TIM4_ClearITPendingBit(TIM4_IT_UPDATE);
 }
 
-uint32_t millis(void){
+uint32_t
+millis(void) {
     uint32_t millis_value;
     // Disable interrupts to ensure atomic read of millis_counter
     disableInterrupts();
@@ -77,21 +75,24 @@ uint32_t millis(void){
     return millis_value;
 }
 
-void stopwatch_start(uint8_t channel){
-    if(channel < 4){
+void
+stopwatch_start(uint8_t channel) {
+    if (channel < 4) {
         stopwatchTime[channel] = millis();
     }
 }
 
-uint32_t stopwatch_stop(uint8_t channel){
-    if(channel < 4){
+uint32_t
+stopwatch_stop(uint8_t channel) {
+    if (channel < 4) {
         return millis() - stopwatchTime[channel];
-    }else{
+    } else {
         return 0;
     }
 }
 
-void IWDG_Config(){
+void
+IWDG_Config() {
     IWDG_Enable();
     IWDG_WriteAccessCmd(IWDG_WriteAccess_Enable);
     IWDG_SetPrescaler(IWDG_Prescaler_256);
