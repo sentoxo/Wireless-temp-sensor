@@ -17,6 +17,8 @@ extern enum Ds18b20_errno ds18b20_errno;
 
 bool ds18b20_init();
 
+void ds18b20_powerdown();
+
 void ds18b20_read_scrachtpad();
 
 void ds18b20_write_scratchpad(uint8_t Th, uint8_t Tl, uint8_t Config);

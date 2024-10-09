@@ -50,13 +50,13 @@
 #endif /* (STM8S208) || (STM8AF52Ax) */
 #include "stm8s_clk.h"
 //#include "stm8s_exti.h"
-#include "stm8s_flash.h"
+//#include "stm8s_flash.h"
 #include "stm8s_gpio.h"
 //#include "stm8s_i2c.h"
 //#include "stm8s_itc.h"
-#include "stm8s_iwdg.h"
+//#include "stm8s_iwdg.h"
 #include "stm8s_rst.h"
-//#include "stm8s_spi.h"
+#include "stm8s_spi.h"
 //#include "stm8s_tim1.h"
 #if !defined(STM8S903) && !defined(STM8AF622x)   /* SDCC patch: see https://github.com/tenbaht/sduino/tree/master/STM8S_StdPeriph_Driver */
 // #include "stm8s_tim2.h"

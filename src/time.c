@@ -7,7 +7,9 @@ static uint32_t stopwatchTime[4];
 void
 delay(uint16_t ms) {
     uint32_t t = millis();
-    while (millis() < (t + ms)) {}
+    while (millis() < (t + ms)) {
+        wfi(); //Wait for interrupt from TIM4.
+    }
 }
 
 void
@@ -90,7 +92,7 @@ stopwatch_stop(uint8_t channel) {
         return 0;
     }
 }
-
+/*
 void
 IWDG_Config() {
     IWDG_Enable();
@@ -100,3 +102,4 @@ IWDG_Config() {
     IWDG_SetReload(255);
     IWDG_ReloadCounter();
 }
+*/

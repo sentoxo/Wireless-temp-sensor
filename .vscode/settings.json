@@ -22,7 +22,9 @@
         "stm8s_iwdg.h": "c",
         "stm8s_rst.h": "c",
         "stm8s_awu.h": "c",
-        "ds18b20.h": "c"
+        "ds18b20.h": "c",
+        "nrf24l01.h": "c",
+        "stm8s_flash.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -4,7 +4,6 @@
 .vscode/launch.json
 .vscode/ipch
 main (spi_sd_test).c
-lib/
 include/
 test/
 src/main.h

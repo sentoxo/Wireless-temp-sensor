@@ -8,7 +8,7 @@
 #define Write_Scratchpad 0x4E
 #define Read_Rom         0x33
 
-extern void log(const char* pStr, ...);
+//extern void log(const char* pStr, ...);
 
 static uint8_t scratchpad[9];
 static uint8_t rom[8];
@@ -62,6 +62,12 @@ ds18b20_init() {
         ds18b20_errno |= INIT_NO_RESPONSE;
         return FALSE;
     }
+}
+
+void
+ds18b20_powerdown() {
+    GPIO_WriteLow(DS18B20GPIOx, DS18B20POWER);
+    GPIO_WriteLow(DS18B20GPIOx, DS18B20DATA);
 }
 
 static void
@@ -159,18 +165,20 @@ ds18b20_convert_temp() {
     delay_micro(5);
     ds18b20_send_byte(Convert_T);
     uint32_t ts = millis();
+    delay(500); //Waiting with delay takes less current than code below.
     while (!ds18b20_read_byte()) {
         //My ds18b20 converts in 520ms, datasheet say max time is 750ms
         if ((millis() - ts) > 800) {
             ds18b20_errno |= CONVERT_T_TIME_OUT;
             break;
         }
+        delay(5);
     }
     if (!ds18b20_reinit()) {
         ds18b20_errno |= REINIT_NO_RESPONSE;
     }
 }
-
+/*
 void
 ds18b20_read_rom() {
     ds18b20_send_byte(Read_Rom);
@@ -187,3 +195,4 @@ ds18b20_log_scratchpad() {
     log(" %x,%x,%x,%x,%x,%x,%x,%x,%x\n\r", scratchpad[0], scratchpad[1], scratchpad[2], scratchpad[3], scratchpad[4],
         scratchpad[4], scratchpad[6], scratchpad[5], scratchpad[8]);
 }
+*/

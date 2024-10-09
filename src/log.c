@@ -4,9 +4,9 @@
 #include "stm8s.h"
 #include "string.h"
 #include "time.h"
-
+#ifdef USELOG
 #define TxLen 100
-#define useSprintf
+//#define useSprintf
 
 static uint8_t TxBuffer1[TxLen];
 static uint8_t bufove = 0;
@@ -167,3 +167,24 @@ void UART1_RX_IRQHandler() __interrupt(18){
     }
 }
 */
+
+#endif
+//Minimalistic uart for less flash usage
+
+void
+UART_Config(uint32_t baudRate) {
+    CLK_PeripheralClockConfig(CLK_PERIPHERAL_UART1, ENABLE);
+    UART1_DeInit();
+    UART1_Init(baudRate, UART1_WORDLENGTH_8D, UART1_STOPBITS_1, UART1_PARITY_NO, UART1_SYNCMODE_CLOCK_DISABLE,
+               UART1_MODE_TXRX_ENABLE);
+    UART1_Cmd(ENABLE);
+}
+
+void
+log_puts(const char* msg) {
+    for (; *msg; msg++) {
+        UART1_SendData8(*msg);
+        while (!(UART1->SR & UART1_SR_TC))
+            ;
+    }
+}
