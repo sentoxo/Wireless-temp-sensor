@@ -5,13 +5,22 @@ PID_FILE="/home/pi/ClimateView/wirelessTemp.pid"
 
 start() {
     if [ -f $PID_FILE ]; then
-        echo "The service is already running."
+	PID=$(cat "$PID_FILE")
+	if ps -p "$PID" > /dev/null 2>&1; then
+        	echo "The service is already running."
+	else
+		_start
+	fi
     else
-        source "/home/pi/ClimateView/rf24/bin/activate"
+        _start
+    fi
+}
+
+_start(){
+ 	source "/home/pi/ClimateView/rf24/bin/activate"
         nohup python3 -u $APP_PATH &>> /home/pi/ClimateView/wirelessTemp.log &
         echo $! > $PID_FILE
         echo "Service started."
-    fi
 }
 
 stop() {

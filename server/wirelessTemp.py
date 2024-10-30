@@ -92,6 +92,8 @@ if __name__ == "__main__":
 
     while(1):
         payload, count = receive()
+        if payload[2]:
+            continue
         try:
             client = connect_mqtt()
             publish(client, topic1, f"{payload[0]/100}")
